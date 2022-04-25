@@ -1,6 +1,5 @@
-mod parser;
-mod var;
-mod expression;
+mod variable_table;
+mod numbers;
 
 fn main() {
     println!("Hello, world!");
