@@ -24,8 +24,70 @@ impl VariableTable {
         self.FloatTable.retain(|v| *v.get_reference_immutable() == true);
     }
 
-    pub fn search_integer_table(&self, predicate: String) -> Option<&Integer> {
+    pub fn get_integer_value(&self, predicate: String) -> Option<&Integer> {
         self.IntegerTable.iter().find(|v| v.get_name_immutable() == predicate)
+    }
+
+    pub fn check_integer_exists(&self, predicate: String) -> bool {
+        let search = self.get_integer_value(predicate);
+        match search {
+            Some(_) => true,
+            None => false,
+        }
+    }
+
+    pub fn insert_new_int(&mut self, new_int: Integer) -> Result<(), String> {
+        if self.check_integer_exists(new_int.get_name_immutable().to_string()) == true {
+            let err_msg: String = String::from("Integer name ".to_string() + new_int.get_name_immutable() + " already exists.");
+            Err(err_msg)
+        }else{
+            self.IntegerTable.push(new_int);
+            Ok(())
+        }
+    }
+
+    pub fn get_float_value(&self, predicate: String) -> Option<&Float> {
+        self.FloatTable.iter().find(|v| v.get_name_immutable() == predicate)
+    }
+
+    pub fn check_float_exists(&self, predicate: String) -> bool {
+        let search = self.get_float_value(predicate);
+        match search {
+            Some(_) => true,
+            None => false,
+        }
+    }
+
+    pub fn insert_new_float(&mut self, new_float: Float) -> Result<(), String> {
+        if self.check_float_exists(new_float.get_name_immutable().to_string()) == true {
+            let err_msg: String = String::from("Float name ".to_string() + new_float.get_name_immutable() + " already exists.");
+            Err(err_msg)
+        }else{
+            self.FloatTable.push(new_float);
+            Ok(())
+        }
+    }
+
+    pub fn get_double_value(&self, predicate: String) -> Option<&Double> {
+        self.DoubleTable.iter().find(|v| v.get_name_immutable() == predicate)
+    }
+
+    pub fn check_double_exists(&self, predicate: String) -> bool {
+        let search = self.get_double_value(predicate);
+        match search { 
+            Some(_) => true,
+            None => false,
+        }
+    }
+
+    pub fn insert_new_double(&mut self, new_double: Double) -> Result<(), String> {
+        if self.check_double_exists(new_double.get_name_immutable().to_string()) == true {
+            let err_msg: String = String::from("Double name ".to_string() + new_double.get_name_immutable() + " already exists.");
+            Err(err_msg)
+        }else{
+            self.DoubleTable.push(new_double);
+            Ok(())
+        }
     }
 
 }
