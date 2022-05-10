@@ -46,6 +46,34 @@ impl Float {
     pub fn get_mutability_immutable(&self) -> &bool {
         &self.mutable
     }
+
+    pub fn to_integer(self) -> Integer {
+        Integer::new(self.value as i32, self.name, self.mutable)
+    }
+
+    pub fn to_double(self) -> Double {
+        Double::new(self.value as f64, self.name, self.mutable)
+    }
+
+    pub fn from_integer(int_in: Integer) -> Self {
+        Self::new(int_in.value as f32, 
+                int_in.name, 
+                int_in.mutable)
+    }
+
+    pub fn from_double(double_in: Double) -> Self {
+        Self::new(double_in.value as f32,
+                double_in.name, 
+                double_in.mutable)
+    }
+
+    pub fn from_string(string_in: String, name: String, mutable: bool) -> Result<Self, String> {
+        let try_parse = string_in.parse::<f32>();
+        match try_parse {
+            Ok(f) => Ok(Self::new(f, name, mutable)),
+            Err(_) => Err(String::from("Could not parse ".to_string() + &name + " to float."))
+        }
+    }
 }
 
 pub struct Double {
@@ -95,6 +123,30 @@ impl Double {
 
     pub fn get_mutability_immutable(&self) -> &bool {
         &self.mutable
+    }
+
+    pub fn to_integer(self) -> Integer {
+        Integer::new(self.value as i32, self.name, self.mutable)
+    }
+
+    pub fn to_float(self) -> Float {
+        Float::new(self.value as f32, self.name, self.mutable)
+    }
+
+    pub fn from_integer(int_in: Integer) -> Self {
+        Self::new(int_in.value as f64, int_in.name, int_in.mutable)
+    }
+
+    pub fn from_float(float_in: Float) -> Self {
+        Self::new(float_in.value as f64, float_in.name, float_in.mutable)
+    }
+
+    pub fn from_string(string_in: String, name: String, mutable: bool) -> Result<Self, String> {
+        let try_parse = string_in.parse::<f64>();
+        match try_parse {
+            Ok(d) => Ok(Self::new(d, name, mutable)),
+            Err(_) => Err(String::from("Could not parse ".to_string() + &name + " to double."))
+        }
     }
 }
 
@@ -146,4 +198,29 @@ impl Integer {
     pub fn get_mutability_immutable(&self) -> &bool {
         &self.mutable
     }
+
+    pub fn to_float(self) -> Float {
+        Float::new(self.value as f32, self.name, self.mutable)
+    }
+
+    pub fn to_double(self) -> Double {
+        Double::new(self.value as f64,  self.name, self.mutable)
+    }
+
+    pub fn from_float(float_in: Float) -> Self {
+        Self::new(float_in.value as i32, float_in.name, float_in.mutable)
+    }
+
+    pub fn from_double(double_in: Double) -> Self {
+        Self::new(double_in.value as i32, double_in.name, double_in.mutable)
+    }
+
+    pub fn from_string(string_in: String, name: String, mutable: bool) -> Result<Self, String> {
+        let try_parse = string_in.parse::<i32>();
+        match try_parse {
+            Ok(i) => Ok(Self::new(i, name, mutable)),
+            Err(_) => Err(String::from("Could not parse ".to_string() + &name + " to integer."))
+        }
+    }
 }
+
