@@ -1,12 +1,16 @@
 use crate::numbers;
+use crate::custom_string;
+
 use numbers::Integer as Integer;
 use numbers::Double as Double;
 use numbers::Float as Float;
+use custom_string::CustomString as CustomString;
 
 pub struct VariableTable {
     IntegerTable: Vec<Integer>,
     DoubleTable: Vec<Double>,
     FloatTable: Vec<Float>,
+    StringTable: Vec<CustomString>,
 }
 
 impl VariableTable {
@@ -15,6 +19,7 @@ impl VariableTable {
             IntegerTable: vec![],
             DoubleTable: vec![],
             FloatTable: vec![],
+            StringTable: vec![],
         }
     }
 
@@ -22,6 +27,7 @@ impl VariableTable {
         self.IntegerTable.retain(|v| *v.get_reference_immutable() == true);
         self.DoubleTable.retain(|v| *v.get_reference_immutable() == true);
         self.FloatTable.retain(|v| *v.get_reference_immutable() == true);
+        self.StringTable.retain(|v| *v.get_reference_immutable() == true);
     }
 
     pub fn get_integer_value(&self, predicate: String) -> Option<&Integer> {
@@ -86,6 +92,28 @@ impl VariableTable {
             Err(err_msg)
         }else{
             self.DoubleTable.push(new_double);
+            Ok(())
+        }
+    }
+
+    pub fn get_string_value(&self, predicate: String) -> Option<&CustomString> {
+        self.StringTable.iter().find(|v| v.get_name_immutable() == predicate)
+    }
+
+    pub fn check_string_exists(&self, predicate: String) -> bool {
+        let search = self.get_string_value(predicate);
+        match search {
+            Some(_) => true,
+            None => false,
+        }
+    }
+
+    pub fn insert_new_string(&mut self, new_string: CustomString) -> Result<(), String> {
+        if self.check_integer_exists(new_string.get_name_immutable().to_string()) == true {
+            let err_msg: String = String::from("Integer name ".to_string() + new_string.get_name_immutable() + " already exists.");
+            Err(err_msg)
+        }else{
+            self.StringTable.push(new_string);
             Ok(())
         }
     }

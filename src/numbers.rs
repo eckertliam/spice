@@ -67,7 +67,7 @@ impl Float {
                 double_in.mutable)
     }
 
-    pub fn from_string(string_in: String, name: String, mutable: bool) -> Result<Self, String> {
+    pub fn from_rust_string(string_in: String, name: String, mutable: bool) -> Result<Self, String> {
         let try_parse = string_in.parse::<f32>();
         match try_parse {
             Ok(f) => Ok(Self::new(f, name, mutable)),
@@ -141,7 +141,7 @@ impl Double {
         Self::new(float_in.value as f64, float_in.name, float_in.mutable)
     }
 
-    pub fn from_string(string_in: String, name: String, mutable: bool) -> Result<Self, String> {
+    pub fn from_rust_string(string_in: String, name: String, mutable: bool) -> Result<Self, String> {
         let try_parse = string_in.parse::<f64>();
         match try_parse {
             Ok(d) => Ok(Self::new(d, name, mutable)),
@@ -215,7 +215,7 @@ impl Integer {
         Self::new(double_in.value as i32, double_in.name, double_in.mutable)
     }
 
-    pub fn from_string(string_in: String, name: String, mutable: bool) -> Result<Self, String> {
+    pub fn from_rust_string(string_in: String, name: String, mutable: bool) -> Result<Self, String> {
         let try_parse = string_in.parse::<i32>();
         match try_parse {
             Ok(i) => Ok(Self::new(i, name, mutable)),
