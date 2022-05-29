@@ -44,4 +44,16 @@ pub struct Expression {
     operation: Operation,
     lhs: ExpressionValue,
     rhs: ExpressionValue,
+    evaluated: bool,
+}
+
+impl Expression {
+    pub fn new(operation: Operation, lhs: ExpressionValue, rhs: ExpressionValue, evaluated: bool) -> Self {
+        Self { 
+            operation, 
+            lhs,
+            rhs,
+            evaluated,
+        }
+    }
 }
