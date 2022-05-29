@@ -23,7 +23,8 @@ impl VariableTable {
         }
     }
 
-    pub fn remove_dereferenced_variables(&mut self) {
+    pub fn remove_dereferenced_variables(&mut self) {//garbage collection
+        //retains all variables that are still referenced
         self.IntegerTable.retain(|v| *v.get_reference_immutable() == true);
         self.DoubleTable.retain(|v| *v.get_reference_immutable() == true);
         self.FloatTable.retain(|v| *v.get_reference_immutable() == true);
