@@ -1,18 +1,3 @@
-//Parsing an input string yields a vector of lines to then be processsed into Expressions
-pub struct Line {
-    tokens: Vec<String>,
-}
-
-impl Line {
-    pub fn new(input: String) -> Self {
-        let pre_tokens: Vec<&str> = input.split(' ').collect();
-        //Rust witchcraft converting the Vec<&str> into Vec<String>
-        Self { 
-            tokens: pre_tokens.iter().map(|&x|x.into()).collect()
-         }
-    }
-}
-
 //Possible operations assigned to an expression
 pub enum Operation {
     PRINT,

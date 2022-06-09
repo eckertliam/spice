@@ -1,4 +1,2 @@
 # spice
-Programming language with a parser and VM both to be written in Rust.
-
-# TODO
+In a transitonal phase dependent on another project.

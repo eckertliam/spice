@@ -1,6 +1,7 @@
 mod variable_table;
 mod numbers;
 mod custom_string;
+mod lexer;
 mod parser;
 mod eval;
 
