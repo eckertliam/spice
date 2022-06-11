@@ -1,2 +1,6 @@
-# spice
-In a transitonal phase dependent on another project.
+# The Spice Programming Language
+### Author: Liam Eckert
+\
+\
+## Spice Introduction
+Reworking the lexer and parser in Python for simpler string manipulation.
