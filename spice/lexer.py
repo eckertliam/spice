@@ -1,19 +1,39 @@
 from enum import Enum, auto
 
 # Operators of the language
-OPERATORS = ["=", "+", "-", "*", "/", "==", "=!", "=>", "=<", "&&", "||", "<", ">"]
+OPERATORS = ["=", "+", "-", "*", "/", "==", "=!", "=>", "=<", "&&", "||", "<", ">", "!", "|", "&"]
+
+def is_operator(in_str):
+    if in_str not in OPERATORS:
+        return False
+    return True
 
 # Keywords of the language
 KEYWORDS = ["func", "let"]
 
+def is_keyword(in_str):
+    if in_str not in KEYWORDS:
+        return False
+    return True
+
 # Seperators of the language
-SEPERATORS = ["(", ")", ";", ":", "[", "]", "{", "}"]
+SEPERATORS = ["(", ")", ";", ":", "[", "]", "{", "}", '"', "'"]
+
+def is_seperator(in_str):
+    if in_str not in SEPERATORS:
+        return False
+    return True
 
 # Whitespace chars
 WHITESPACE = [" ", "\t", "\n", "\v", "\r", "\f"]
 
+def is_whitespace(in_str):
+    if in_str not in WHITESPACE:
+        return False
+    return True
+
 # Alphebetical chars
-ALPHABET = []
+ALPHABET = ["'", '"']
 for letter in range('a', 'z'):
     ALPHABET.append(letter)
     ALPHABET.append(letter.capitalize())
@@ -104,6 +124,7 @@ class Tokenizer:
         # current char
         self.current = self.chars[self.index]
         self.tokens = []
+        self.possible = POSSIBLE_TOKENS
 
     # These two peaks functions might seem pointless but I find they increase readability
     def peak_last_char(self):
@@ -118,21 +139,45 @@ class Tokenizer:
         self.index += 1
         if self.index < len(self.current):
             self.current += self.chars[self.index + 1]
-        else:
-            return None
+       
     
+    def reset_possible(self):
+        self.possible = POSSIBLE_TOKENS
+
     # Sets the next char as current
     def next_char(self):
         self.index += 1
         if self.index < len(self.current):
             self.current = self.chars[self.index]
-        else:
-            return None
+        
     
     # Peaks the most recent token
     def peak_last_token(self):
         if len(self.tokens) > 0:
             return self.tokens[-1]
-        else:
-            return None
+        
 
+    # rules check if current can possibly be the token and if not remove it from possible
+    def identifier_rules(self):
+        if not is_letter(self.current) or is_keyword(self.current):
+            self.possible.remove(Token_Type.IDENTIFIER)
+
+    def keyword_rules(self):
+        if not is_keyword(self.current):
+            self.possible.remove(Token_Type.KEYWORD)
+
+    def seperator_rules(self):
+        if not is_seperator(self.current):
+            self.possible.remove(Token_Type.KEYWORD)
+    
+    def operator_rules(self):
+        if not is_operator(self.current):
+            self.possible.remove(Token_Type.OPERATOR)
+        
+    def literal_rules(self):
+        if is_letter(self.current):
+            if not self.current[0] in ["'", '"'] or not self.current[-1] in ["'", '"']:
+                self.possible.remove(Token_Type.LITERAL)
+        elif not is_num(self.current):
+            self.possible.remove(Token_Type.LITERAL)
+        
