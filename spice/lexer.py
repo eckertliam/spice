@@ -42,23 +42,42 @@ class Token:
         self.token_type = token_type
         self.value = value
 
+# had to make my own split since python throws out delimiters
+def psplit(string):
+    return_ls = []
+    ls_string = list(string)
+    current = ""
+    for char in string:
+        if char not in WHITESPACE:
+            current += char
+        else:
+            if current != "":
+                return_ls.append(current)
+                current = ""
+            return_ls.append(char)
+    return return_ls
+
 
 # adds spaces around each SEPERATOR
-def expand_seperators(chars: str, index=0):
-    if type(chars) == list[str]:
-        if index != 0:
-            if chars[index] in SEPERATORS:
-                if chars[index - 1] != " ":
-                    chars.insert(index, " ")
-                    index += 1
-                if chars[index + 1] != " ":
-                    chars.insert(index + 1, " ")
+def expand_seperators(chars: str):
+    chars = list(chars)
+    r_list = []
+    index = 0
+    for char in chars:
+        if char in SEPERATORS:
+            if r_list[-1] != " ":
+                r_list.append(" ")
+            r_list.append(char)
+            if chars[index + 1] != " ":
+                r_list.append(" ")
+        else:
+            r_list.append(char)
         index += 1
-        if index == len(chars) - 1:
-            return chars
-    else:
-        chars = list(chars)
-    return expand_seperators(chars, index)
+    return r_list
+
+def seperate(string):
+    return psplit(expand_seperators(string))
+    
 
 # checks that front and back match, are quote marks and the are no other terminating quote marks
 def is_string_literal(case: str):
@@ -78,8 +97,7 @@ def is_bool(case):
 def is_comment(case: str):
     case = list(case)
     if len(case) > 3:
-        front1, front2, back = case.pop(0), case.pop(0), case.pop(-1)
-        front = front1 + front2
+        front, back = case.pop(0) + case.pop(0), case.pop(-1)
         return front == "//" and back == "\n"
     else:
         return False
@@ -95,4 +113,9 @@ def is_number_literal(case: str):
             return False
     return period_count <= 1
 
+def is_operator(case):
+    return case in OPERATORS
+
+def is_keyword(case):
+    return case in KEYWORDS
 
