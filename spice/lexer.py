@@ -20,7 +20,7 @@ for letter in list(ascii_lowercase):
     ALPHABET.append(letter.capitalize())
 
 # Number chars
-DIGITS = str([num for num in range(1, 9)])
+DIGITS = str([num for num in range(0, 9)])
 
 
 
@@ -75,8 +75,30 @@ def expand_seperators(chars: str):
         index += 1
     return r_list
 
+def seperate_comment(chars: str):
+    chars = list(chars)
+    r_list = []
+    index = 0
+    current = ""
+    while index < len(chars) - 1:
+        current = chars[index] + chars[index + 1]
+        if current == "//":
+            r_list.append(" ")
+            r_list.append(current)
+            r_list.append(" ")
+            index += 1
+        else:
+            r_list.append(chars[index])
+        index += 1
+    return r_list
+
 def seperate(string):
-    return psplit(expand_seperators(string))
+    r = expand_seperators(string)
+    r = seperate_comment(r)
+    print(r)
+    r = psplit(r)
+    r.append("\n")
+    return r
     
 
 # checks that front and back match, are quote marks and the are no other terminating quote marks
@@ -94,13 +116,6 @@ def is_string_literal(case: str):
 def is_bool(case):
     return case == "true" or case == "false"
 
-def is_comment(case: str):
-    case = list(case)
-    if len(case) > 3:
-        front, back = case.pop(0) + case.pop(0), case.pop(-1)
-        return front == "//" and back == "\n"
-    else:
-        return False
 
 def is_number_literal(case: str):
     case = list(case)
@@ -109,7 +124,6 @@ def is_number_literal(case: str):
         if char == ".":
             period_count+=1
         if char not in DIGITS and char != "." :
-            print(char)
             return False
     return period_count <= 1
 
@@ -119,3 +133,47 @@ def is_operator(case):
 def is_keyword(case):
     return case in KEYWORDS
 
+def is_identifier(case):
+    case = list(case)
+    for char in case:
+        if char not in ALPHABET and char not in DIGITS:
+            return False
+    return True
+
+def lex(string):
+    stream = seperate(string)
+    index = 0
+    current = ""
+    tokens = []
+    while index < len(stream):
+        current = stream[index]
+        # comment catching subloop
+        if current == "//":
+            tokens.append(Token(Token_Type.COMMENT, "//"))
+            index += 1
+            while current != "\n":
+                if index < len(stream):
+                    current = stream[index]
+                    tokens.append(Token(Token_Type.COMMENT, current))
+                    index += 1
+                else:
+                    raise ValueError("Index is greater than the size of the pre-token stream: a comment might not end with an endline")
+            tokens.append(Token(Token_Type.WHITESPACE, "\n"))
+        elif current in KEYWORDS:
+            tokens.append(Token(Token_Type.KEYWORD, current))
+        elif current in WHITESPACE:
+            tokens.append(Token(Token_Type.WHITESPACE, current))
+        elif is_bool(current):
+            tokens.append(Token(Token_Type.BOOL, current))
+        elif is_operator(current):
+            tokens.append(Token(Token_Type.OPERATOR, current))
+        elif is_string_literal(current):
+            tokens.append(Token(Token_Type.STRING_LITERAL, current))
+        elif is_number_literal(current):
+            tokens.append(Token(Token_Type.NUMBER_LITERAL, current))
+        elif is_identifier(current):
+            tokens.append(Token(Token_Type.IDENTIFIER, current))
+        else:
+            raise ValueError("Unkown input of ", current)
+        index += 1
+    return tokens
