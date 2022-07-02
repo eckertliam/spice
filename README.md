@@ -3,7 +3,7 @@
 
 ## Roadmap
 - [ ] Add language spec to README
-- [ ] Biderectional type checking
+- [ ] Type checking
 - [ ] System verification: ensuring there is no undefined behavior
 - [ ] EIRCE or Endless Intermediate Representation Called EIRCE
 - [ ] Finish AST for the parser
