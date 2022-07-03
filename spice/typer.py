@@ -7,6 +7,7 @@ class T(Enum):
     Char = auto()
     String = auto()
     Bool = auto()
+    List = auto()
 
 class Type:
     # the atom function is subclasses verifies the type for an atom 

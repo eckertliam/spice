@@ -1,5 +1,5 @@
 from enum import Enum, auto
-from string import ascii_lowercase, digits
+from string import ascii_lowercase
 
 # Operators of the language
 OPERATORS = ["=", "+", "-", "*", "/", "==", "=!", "=>", "=<", "&&", "||", "<", ">", "!", "|", "&"]
