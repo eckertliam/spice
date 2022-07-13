@@ -5,7 +5,7 @@ from string import ascii_lowercase
 OPERATORS = ["=", "+", "-", "*", "/", "==", "=!", "=>", "=<", "&&", "||", "<", ">", "!", "|", "&"]
 
 # Keywords of the language
-KEYWORDS = ["fn", "let", "if", "elif", "else", "while", "true", "false", "enum"]
+KEYWORDS = ["fn", "let", "if", "elif", "else", "while", "true", "false"]
 
 # Seperators of the language
 SEPERATORS = ["(", ")", ";", ":", "[", "]", "{", "}"]
