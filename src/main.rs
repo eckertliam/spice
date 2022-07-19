@@ -1,6 +1,7 @@
 mod isa;
+mod mem;
 mod tsys;
+mod var;
+mod varpool;
 
-fn main() {
-    println!("Hello, world!");
-}
+fn main() {}

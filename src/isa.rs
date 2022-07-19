@@ -1,4 +1,4 @@
-enum InstructionT {
+pub enum InstructionT {
     AddInt,
     AddFloat,
     SubInt,
