@@ -33,8 +33,12 @@ impl Var {
         &self.address
     }
 
-    pub fn shift_address(&mut self, offset: u8) {
-        self.address.shift(offset)
+    pub fn shift_address_forward(&mut self, offset: u8) {
+        self.address.shift_forward(offset)
+    }
+
+    pub fn shift_address_backward(&mut self, offset: u8) {
+        self.address.shift_forward(offset)
     }
 
     pub fn get_t(&self) -> &VarType {
@@ -87,15 +91,15 @@ impl StripVar {
         }
     }
 
-    pub fn get_val(self) -> &'static str {
-        self.val.as_str()
+    pub fn get_val(self) -> String {
+        self.val
     }
 
-    pub fn get_id(self) -> &'static str {
-        self.id.as_str()
+    pub fn get_id(self) -> String {
+        self.id
     }
 
-    pub fn to_var(self, addr: Address) -> Var {
-        Var::new(self.get_val(), self.get_id(), addr)
+    pub fn to_var(self, address: Address) -> Var {
+        Var::new(self.val.as_str(), self.id.as_str(), address)
     }
 }
