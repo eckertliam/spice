@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 # Table of Contents
+=======
+# The Spice Language
+The Spice Language is inspired by MLs such as Ocaml and SML. The Spice Language is not meant to be used for anything serious, it is only a project for me to learn from. I have been working on Spice for a long time now, I have imagined Spice many different ways during that time. Finally I have decided on these key features for Spice:
+>>>>>>> 70795ff9d1d8b88c919f0dcbd78a150fff95e883
 
 1.  [The Spice Language](#orgb6649f1)
 
