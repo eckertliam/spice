@@ -1,6 +1,4 @@
-<<<<<<< HEAD
 # Table of Contents
-=======
 
 1.  [The Spice Language](#orgb6649f1)
 
